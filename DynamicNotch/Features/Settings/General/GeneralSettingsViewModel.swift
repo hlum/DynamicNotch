@@ -81,6 +81,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             persist(isMenuBarIconVisible, for: Keys.menuBarIcon)
         }
     }
+
+    @Published var isCameraEnabled: Bool {
+        didSet {
+            persist(isCameraEnabled, for: Keys.cameraEnabled)
+        }
+    }
     
     @Published var expandOnHoverEnabled: Bool {
         didSet {
@@ -233,6 +239,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.notchWidth = defaults.integer(forKey: Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: Keys.menuBarIcon)
+        self.isCameraEnabled = defaults.bool(forKey: Keys.cameraEnabled)
         self.isShowNotchStrokeEnabled = defaults.bool(forKey: Keys.notchStrokeEnabled)
         self.notchStrokeWidth = defaults.double(forKey: Keys.notchStrokeWidth)
         self.displayLocation = NotchDisplayLocation(rawValue: defaults.string(forKey: Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue) ?? .main
@@ -352,6 +359,7 @@ private extension GeneralSettingsViewModel {
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
+        static let cameraEnabled = "settings.camera.enabled"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
@@ -379,6 +387,7 @@ private extension GeneralSettingsViewModel {
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,
+        Keys.cameraEnabled: true,
         Keys.notchStrokeEnabled: true,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,

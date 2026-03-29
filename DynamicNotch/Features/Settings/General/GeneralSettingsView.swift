@@ -43,6 +43,17 @@ struct GeneralSettingsView: View {
                 Divider()
                 
                 SettingsToggleRow(
+                    title: "Enable camera overlay",
+                    description: "Show the camera button in the notch and allow preview capture.",
+                    systemImage: "camera.fill",
+                    color: .pink,
+                    isOn: $generalSettingsViewModel.isCameraEnabled,
+                    accessibilityIdentifier: "settings.general.cameraOverlay"
+                )
+                
+                Divider()
+                
+                SettingsToggleRow(
                     title: "Expand on hover",
                     description: "Expand the Dynamic Notch and dismiss automatically on hover.",
                     systemImage: "cursorarrow",
