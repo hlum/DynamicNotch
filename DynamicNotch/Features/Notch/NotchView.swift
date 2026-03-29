@@ -108,6 +108,14 @@ private extension NotchView {
         .customNotchSwipeDismissable(
             notchViewModel: notchViewModel
         )
+        .onHover(perform: { isHovered in
+            guard generalSettingsViewModel.expandOnHoverEnabled else { return }
+            if isHovered {
+                notchViewModel.handleActiveContentTap()
+            } else {
+                notchViewModel.handleOutsideClick()
+            }
+        })
         .contextMenu {
             if !generalSettingsViewModel.isMenuBarIconVisible {
                 contextMenuItem

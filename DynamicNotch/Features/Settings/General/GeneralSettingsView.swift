@@ -39,6 +39,16 @@ struct GeneralSettingsView: View {
                     isOn: $generalSettingsViewModel.isMenuBarIconVisible,
                     accessibilityIdentifier: "settings.general.menuBarIcon"
                 )
+                
+                Divider()
+                
+                SettingsToggleRow(
+                    title: "Expand on hover",
+                    description: "Expand the Dynamic Notch and dismiss automatically on hover.",
+                    systemImage: "cursorarrow",
+                    color: .gray,
+                    isOn: $generalSettingsViewModel.expandOnHoverEnabled
+                )
             }
         }
     }

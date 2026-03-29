@@ -81,6 +81,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             persist(isMenuBarIconVisible, for: Keys.menuBarIcon)
         }
     }
+    
+    @Published var expandOnHoverEnabled: Bool {
+        didSet {
+            persist(expandOnHoverEnabled, for: Keys.expandOnHover)
+        }
+    }
 
     @Published var isShowNotchStrokeEnabled: Bool {
         didSet {
@@ -223,6 +229,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         defaults.register(defaults: Self.defaultValues)
 
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: Keys.launchAtLogin)
+        self.expandOnHoverEnabled = defaults.bool(forKey: Keys.expandOnHover)
         self.notchWidth = defaults.integer(forKey: Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: Keys.menuBarIcon)
@@ -341,6 +348,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
 private extension GeneralSettingsViewModel {
     enum Keys {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
+        static let expandOnHover = "expandOnHover"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
