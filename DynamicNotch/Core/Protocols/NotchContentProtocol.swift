@@ -8,6 +8,10 @@
 import SwiftUI
 
 protocol NotchContentProtocol {
+    var cameraWidth: CGFloat { get }
+    var cameraHeight: CGFloat { get }
+    var cameraHorizontalPadding: CGFloat { get }
+    
     var id: String { get }
     var priority: Int { get }
     var strokeColor: Color { get }
@@ -28,6 +32,23 @@ protocol NotchContentProtocol {
 }
 
 extension NotchContentProtocol {
+    func expandedSizeIncludingCamera(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        let baseExpanded = expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        let cameraExtras = cameraWidth +
+        (cameraHorizontalPadding * 2)
+        
+        let width = baseExpanded.width + cameraExtras
+        let height = max(baseExpanded.height, cameraHeight)
+        
+        return CGSize(width: width, height: height)
+    }
+}
+
+extension NotchContentProtocol {
+    var cameraWidth: CGFloat { 100 }
+    var cameraHeight: CGFloat { 90 }
+    var cameraHorizontalPadding: CGFloat { 50 }
+    
     var priority: Int { 0 }
     var strokeColor: Color { .white.opacity(0.2) }
     var offsetXTransition: CGFloat { 0 }

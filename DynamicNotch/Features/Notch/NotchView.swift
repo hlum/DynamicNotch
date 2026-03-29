@@ -86,6 +86,12 @@ private extension NotchView {
         )
         .overlay {
             contentOverlay
+                .mask(
+                    NotchShape(
+                        topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                        bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
+                    )
+                )
         }
         .overlay {
             AirDropDestinationView(
@@ -147,10 +153,40 @@ private extension NotchView {
     @ViewBuilder
     func renderedContentView(for content: NotchContentProtocol) -> some View {
         if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
-            content.makeExpandedView()
+            let padding = content.cameraHorizontalPadding
+            
+            HStack(alignment: .center, spacing: 0) {
+                content.makeExpandedView()
+                
+                cameraPlaceholder(for: content)
+            }
+            .padding(.horizontal, padding)
+            .frame(
+                maxWidth: notchViewModel.interactiveNotchSize.width,
+                maxHeight: notchViewModel.interactiveNotchSize.height,
+                alignment: .center
+            )
         } else {
             content.makeView()
         }
+    }
+    
+    @ViewBuilder
+    private func cameraPlaceholder(for content: NotchContentProtocol) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white.opacity(0.06))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                )
+            
+            Text("Hello")
+                .font(.system(size: 13, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.85))
+        }
+        .frame(width: content.cameraWidth, height: content.cameraHeight, alignment: .center)
+        .frame(maxHeight: .infinity, alignment: .center)
     }
     
     @ViewBuilder
@@ -168,6 +204,7 @@ private extension NotchView {
     }
 }
 
+// MARK: listening events here
 private struct NotchEventHandlersView: View {
     let notchEventCoordinator: NotchEventCoordinator
     let powerViewModel: PowerViewModel
@@ -182,6 +219,9 @@ private struct NotchEventHandlersView: View {
     
     var body: some View {
         Color.clear
+            .onAppear {
+//                notchEventCoordinator.handleCameraEvent()
+            }
             .onReceive(powerViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handlePowerEvent(event)
             }
