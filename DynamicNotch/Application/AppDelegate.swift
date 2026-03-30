@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let powerViewModel: PowerViewModel
     let networkViewModel = NetworkViewModel()
     let downloadViewModel: DownloadViewModel
+    let cameraViewModel: CameraViewModel
     let focusViewModel = FocusViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
     let nowPlayingViewModel: NowPlayingViewModel
@@ -79,6 +80,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             monitor: isRunningUITests ?
                 InactiveDownloadMonitor() :
                 FolderFileDownloadMonitor()
+        )
+        self.cameraViewModel = CameraViewModel(
+            permissionProvider: CameraPermissionProvider(),
+            sessionManager: CameraSessionManager(),
+            isEnabled: generalSettingsViewModel.isCameraEnabled
         )
         self.lockScreenManager = LockScreenManager(
             service: isRunningUITests ?
@@ -173,7 +179,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 airDropController: airDropController,
                 generalSettingsViewModel: generalSettingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
-                lockScreenManager: lockScreenManager
+                lockScreenManager: lockScreenManager,
+                cameraViewModel: self.cameraViewModel
             )
         )
 

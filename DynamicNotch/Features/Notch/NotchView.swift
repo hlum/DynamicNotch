@@ -16,6 +16,7 @@ struct NotchView: View {
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
+    @StateObject var cameraViewModel: CameraViewModel
     
     var body: some View {
         ZStack {
@@ -175,20 +176,10 @@ private extension NotchView {
     
     @ViewBuilder
     private func cameraPlaceholder(for content: NotchContentProtocol) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.06))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.white.opacity(0.15), lineWidth: 1)
-                )
-            
-            Text("Hello")
-                .font(.system(size: 13, weight: .medium, design: .rounded))
-                .foregroundStyle(.white.opacity(0.85))
-        }
-        .frame(width: content.cameraWidth, height: content.cameraHeight, alignment: .center)
-        .frame(maxHeight: .infinity, alignment: .center)
+        CameraOverlayView(cameraViewModel: cameraViewModel)
+            .frame(width: content.cameraWidth, height: content.cameraHeight, alignment: .center)
+            .frame(maxHeight: .infinity, alignment: .center)
+            .opacity(0.5)
     }
     
     @ViewBuilder
