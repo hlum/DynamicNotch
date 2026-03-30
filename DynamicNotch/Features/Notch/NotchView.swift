@@ -153,19 +153,21 @@ private extension NotchView {
     @ViewBuilder
     func renderedContentView(for content: NotchContentProtocol) -> some View {
         if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
-            let padding = content.cameraHorizontalPadding
-            
-            HStack(alignment: .center, spacing: 0) {
+            let spacing = content.cameraSpacing
+
+            HStack(alignment: .center, spacing: spacing) {
                 content.makeExpandedView()
-                
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .layoutPriority(1)
+                                
                 cameraPlaceholder(for: content)
             }
-            .padding(.horizontal, padding)
             .frame(
                 maxWidth: notchViewModel.interactiveNotchSize.width,
                 maxHeight: notchViewModel.interactiveNotchSize.height,
-                alignment: .center
+                alignment: .leading
             )
+            .padding(.horizontal, 80)
         } else {
             content.makeView()
         }

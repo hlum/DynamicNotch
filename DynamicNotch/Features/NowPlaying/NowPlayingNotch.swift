@@ -200,7 +200,6 @@ struct NowPlayingExpandedNotchView: View {
                     }
                 }
             }
-            .padding(.horizontal, 55)
             .padding(.top, 25)
             .padding(.bottom, 15)
         }
