@@ -120,6 +120,7 @@ private extension NotchView {
             if isHovered {
                 notchViewModel.handleActiveContentTap()
             } else {
+                cameraViewModel.hidePreview()
                 notchViewModel.handleOutsideClick()
             }
         })
@@ -161,7 +162,9 @@ private extension NotchView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .layoutPriority(1)
                                 
-                cameraPlaceholder(for: content)
+                if generalSettingsViewModel.isCameraEnabled {
+                    cameraPlaceholder(for: content)
+                }
             }
             .frame(
                 maxWidth: notchViewModel.interactiveNotchSize.width,

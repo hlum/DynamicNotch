@@ -31,6 +31,13 @@ final class CameraViewModel: ObservableObject {
         self.isEnabled = isEnabled
     }
     
+    func updateEnabled(_ enabled: Bool) {
+        isEnabled = enabled
+        if !isEnabled {
+            hidePreview()
+        }
+    }
+    
     
     func togglePreview() async {
         guard isEnabled else { return }

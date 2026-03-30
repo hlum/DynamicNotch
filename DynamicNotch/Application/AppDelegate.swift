@@ -101,6 +101,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
         observeDisplayLocationChanges()
         observeHUDConfigurationChanges()
+        observeCameraConfigurationChange()
         observeLockScreenWindowHandoff()
 
         if !isRunningUITests {
@@ -232,6 +233,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             )
         }
         .store(in: &cancellables)
+    }
+    
+    private func observeCameraConfigurationChange() {
+        generalSettingsViewModel.$isCameraEnabled
+            .removeDuplicates()
+            .sink { [weak self] isCameraEnabled in
+                self?.cameraViewModel.updateEnabled(isCameraEnabled)
+            }
+            .store(in: &cancellables)
     }
 
     private func observeLockScreenWindowHandoff() {
