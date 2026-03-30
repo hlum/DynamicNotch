@@ -389,7 +389,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var activeNotchScreenRect: CGRect? {
         guard let window else { return nil }
 
-        let notchSize = notchViewModel.notchModel.size
+        let notchSize = notchViewModel.effectiveNotchSize
         guard notchSize.width > 0, notchSize.height > 0 else { return nil }
 
         let origin = CGPoint(

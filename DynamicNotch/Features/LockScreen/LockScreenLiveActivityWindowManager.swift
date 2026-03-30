@@ -388,7 +388,7 @@ private struct LockScreenLiveActivityOverlayView: View {
         .customNotchPressable(
             notchViewModel: notchViewModel,
             isPressed: $notchViewModel.isPressed,
-            baseSize: notchViewModel.notchModel.size
+            baseSize: notchViewModel.effectiveNotchSize
         )
         .frame(width: contentSize.width, height: contentSize.height)
         .scaleEffect(animator.scale)

@@ -60,6 +60,23 @@ final class NotchViewModel: ObservableObject {
     /// Resolves the screen metrics for the currently selected display
     private let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics?
     
+    /// Camera-aware notch size that includes camera space when appropriate
+    var effectiveNotchSize: CGSize {
+        let baseSize = notchModel.size
+        
+        // Only add camera space if we're showing expanded live activity and camera is enabled
+        guard notchModel.isPresentingExpandedLiveActivity,
+              settings.isCameraEnabled,
+              let content = notchModel.liveActivityContent else {
+            return baseSize
+        }
+        
+        return content.expandedSizeIncludingCamera(
+            baseWidth: notchModel.baseWidth,
+            baseHeight: notchModel.baseHeight
+        )
+    }
+    
     /// Returns the currently highest priority Live Activity
     private var highestPriorityActivity: NotchContentProtocol? {
         activeLiveActivities.sorted { $0.priority > $1.priority }.first
@@ -110,7 +127,7 @@ final class NotchViewModel: ObservableObject {
     }
 
     var interactiveNotchSize: CGSize {
-        let baseSize = notchModel.size
+        let baseSize = effectiveNotchSize
         let progress = easedDownwardSwipeStretchProgress
 
         return CGSize(

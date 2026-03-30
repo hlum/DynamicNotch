@@ -48,7 +48,7 @@ struct NotchModel: Equatable {
 
         if let liveActivityContent {
             if isPresentingExpandedLiveActivity {
-                return liveActivityContent.expandedSizeIncludingCamera(baseWidth: baseWidth, baseHeight: baseHeight)
+                return liveActivityContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
             }
 
             return liveActivityContent.size(baseWidth: baseWidth, baseHeight: baseHeight)
